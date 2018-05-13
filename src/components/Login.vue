@@ -69,12 +69,32 @@ export default {
         this.$store.dispatch("setUser", response.data.user);
         console.log(response);
         this.error = null;
-        // var socket = io();
+
+        /*socket io attemp
+       var s = document.getElementById('socket')
+           s.src = '/socket.io/socket.io.js'
+         io();*/
+
+         
       } catch (error) {
         this.error = error.response.data;
         // console.log(error.response.data);
       }
     }
+  },
+  created: () => {
+    this.socket= socket
+    console.log(this.socket)
+    // this.socket.on('hello',(data)=>{
+    //   console.log(data)
+    // })
+// var s = document.getElementById('socket')
+//   console.log(s)
+    // console.log(document.querySelector("script"));
+    //  var newS= document.querySelector('script')
+    //  newS.src = 'new.js'
+    // var s = document.createElement("script");
+    // s.src = "new.js";
   }
 };
 </script>

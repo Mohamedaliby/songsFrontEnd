@@ -10,10 +10,18 @@
   <v-spacer></v-spacer>
 
    <v-toolbar-items>
-     <v-btn v-if="!$store.state.isLoggedin"
-      @click="GoTo({name:'login'})" dark flat>Login</v-btn>
-     <v-btn v-if="!$store.state.isLoggedin"
-      to="register" dark flat>Sign up</v-btn>
+      <v-btn v-if="!$store.state.isLoggedin"
+       @click="GoTo({name:'login'})" dark flat>Login
+      </v-btn>
+
+      <v-btn v-if="!$store.state.isLoggedin"
+       to="register" dark flat>Sign up
+      </v-btn>
+
+      <v-btn v-if="$store.state.isLoggedin"
+       @click="logOut"
+       dark flat>Log out
+      </v-btn>
    </v-toolbar-items>
  </v-toolbar>
 </template>
@@ -23,13 +31,18 @@ export default {
   methods: {
     GoTo(route) {
       this.$router.push(route);
+    },
+    logOut() {
+       this.$store.dispatch('setToken',null)
+       this.$store.dispatch('setUser',null)
+       this.$router.push({name:'home'})
     }
   }
 };
 </script>
 
 <style scoped>
-.logo{
+.logo {
   cursor: pointer;
 }
 </style>
