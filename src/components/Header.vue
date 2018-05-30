@@ -1,29 +1,35 @@
 <template>
-  <v-toolbar dark fixed class="cyan">
+<div>
+  <v-toolbar fixed class="teal--text">
     <v-toolbar-title class="mr-4">
       <span class="logo" @click="GoTo({name:'home'})">Title</span> 
     </v-toolbar-title>
     <v-toolbar-items>
-      <v-btn dark flat>Browse</v-btn>
+      <v-btn flat
+       to="/songs">Browse</v-btn>
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
     </v-toolbar-items>
 
   <v-spacer></v-spacer>
 
    <v-toolbar-items>
       <v-btn v-if="!$store.state.isLoggedin"
-       @click="GoTo({name:'login'})" dark flat>Login
+       @click="GoTo({name:'login'})" flat>Login
       </v-btn>
 
       <v-btn v-if="!$store.state.isLoggedin"
-       to="register" dark flat>Sign up
+       to="register" flat>Sign up
       </v-btn>
 
       <v-btn v-if="$store.state.isLoggedin"
        @click="logOut"
-       dark flat>Log out
+       flat>Log out
       </v-btn>
    </v-toolbar-items>
  </v-toolbar>
+ </div>
 </template>
 
 <script>
@@ -36,6 +42,7 @@ export default {
        this.$store.dispatch('setToken',null)
        this.$store.dispatch('setUser',null)
        this.$router.push({name:'home'})
+       this.$socket.close()
     }
   }
 };
@@ -44,5 +51,8 @@ export default {
 <style scoped>
 .logo {
   cursor: pointer;
+}
+.btn{
+  color: #00695C;
 }
 </style>
