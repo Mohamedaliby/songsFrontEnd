@@ -8,7 +8,9 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isLoggedin: false
+    isLoggedin: false,
+    isConnected: false,
+    users: []
   },
   mutations: {
 setToken (state, token) {
@@ -21,7 +23,19 @@ setToken (state, token) {
 },
 setUser (state, user) {
   state.user = user
+},
+// Socket io 
+SOCKET_CONNECT(state) {
+  state.isConnected = true;
+},
+
+SOCKET_DISCONNECT(state) {
+  state.isConnected = false;
+},
+ NEW_USER(state, user) {
+  state.users.push(user)
 }
+
   },
   actions: {
     setToken({commit}, token) {
@@ -29,6 +43,15 @@ setUser (state, user) {
     },
     setUser({commit}, user) {
       commit('setUser', user)
-    }
-  }
+    },
+    NEW_USER({commit}, user) {
+      commit('NEW_USER', user)
+    },
+    //  Socket io  not working
+    /*socket_userAdded: (context, message) => {
+      console.log('action socket')
+      context.dispatch('NEW_USER', message);
+      context.commit('NEW_USER', message);
+    } */
+}
 })

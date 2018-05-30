@@ -1,11 +1,8 @@
 <template>
-<v-layout align-center justify-center>
-  <v-flex xs12 sm8 md6>
+<v-layout  pt-2 align-center justify-center>
+  <v-flex xs12 sm8 md4>
    <v-card>
-     <div class="white elevation-2">
-      <v-toolbar flat dense class="cyan">
-        <v-toolbar-title class="white--text">Register</v-toolbar-title>
-        </v-toolbar>
+    <panel title="Register">
           <v-container fluid>
                 <v-text-field
                    v-model="email"
@@ -24,12 +21,12 @@
         <br>
                 <v-btn
                   dark
-                  class="cyan"
+                  class="teal"
                   @click="register">
                   Register
                 </v-btn>
           </v-container>
-        </div>
+     </panel>
     </v-card>
   </v-flex>
 </v-layout>
@@ -39,9 +36,13 @@
 
 <script>
 import AuthService from "@/services/AuthService";
+import Panel from '@/components/Panel'
 
 export default {
   name: "register",
+   components:{
+    Panel
+  },
   data() {
     return {
       email: "",
@@ -63,20 +64,26 @@ export default {
   },
   methods: {
     async register() {
-      const response = await AuthService.register({
+
+
+
+    try {
+        const response = await AuthService.register({
         email: this.email,
         password: this.password
       })
-        .then(response => {
-          console.log(response.data);
-          this.$store.dispatch("setToken", response.data.token);
-          this.$store.dispatch("setUser", response.data.user);
-        })
-        .catch((err) => {
-          let error = err.response.data.error || err.response.data;
-          this.error = err.response.data.error || err.response.data;
-          console.log(err);
-        });
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        console.log(response);
+        this.error = null;
+        let user = response.data.user
+        await AuthService.socketConnect(this.$socket, this.$store.state.token)
+        this.$socket.emit('login', user)
+        // console.log(socket)
+      } catch (error) {
+        this.error = error.response.data.error || error.response.data;
+        // console.log(error.response.data);
+      }
     }
   }
 };

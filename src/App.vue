@@ -3,9 +3,9 @@
     <v-app>
       <page-header />
        <main>
-         <v-container fluid>
+         <!-- <v-container fluid> -->
            <router-view></router-view>
-         </v-container>
+         <!-- </v-container> -->
        </main>
     </v-app>
   </div>
@@ -29,7 +29,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 64px;
 }
 .input-group--text-field input {
   border-bottom: 1px solid #eee;
@@ -40,9 +40,14 @@ export default {
   padding-left: 0 !important;
 }
 .container{
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+  /* padding-right: 0 !important;
+  padding-left: 0 !important; */
 }
 }
 
+  @media only screen and (max-width: 960px){
+#app {
+  margin-top: 48px;
+}
+}
 </style>

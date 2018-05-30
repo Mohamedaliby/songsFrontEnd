@@ -7,13 +7,25 @@ import 'vuetify/dist/vuetify.min.css';
 import Vuetify from 'vuetify';
 import {sync} from 'vuex-router-sync'
 import store from './store/store'
-
+import io from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io';
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify)
 sync(store, router)
 /* eslint-disable no-new */
+
+let token = store.getters.token;
+export const socket = io('http://localhost:3000',{
+  autoConnect: false,
+  query: {
+    token: token
+  }
+})
+
+Vue.use(VueSocketIO, socket, store)
+
 new Vue({
   el: '#app',
   router,

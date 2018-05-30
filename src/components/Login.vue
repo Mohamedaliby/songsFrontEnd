@@ -1,11 +1,8 @@
 <template>
-<v-layout align-center justify-center>
-  <v-flex xs12 sm8 md6>
+<v-layout pt-2 align-center justify-center>
+  <v-flex xs12 sm8 md4>
    <v-card>
-     <div class="white elevation-2">
-      <v-toolbar flat dense class="cyan">
-        <v-toolbar-title class="white--text">Login</v-toolbar-title>
-        </v-toolbar>
+    <panel title="Login">
           <v-container fluid>
                 <v-text-field
                    v-model="email"
@@ -16,19 +13,26 @@
                 <v-text-field
                    label="password"
                    v-model="password"
-                   type="password">
+                   type="password"
+                   :rules="[rules.required]">
                    <!-- :rules="[rules.required, rules.email]"> -->
                  </v-text-field>
                  <div class="error white--text" v-html="error"/>
                  <br>
                 <v-btn
                   dark
-                  class="cyan"
+                  class="teal"
                   @click="login">
                   Login
                 </v-btn>
+                <v-btn
+                  dark
+                  class="teal"
+                  @click="hello">
+                  hello
+                </v-btn>
           </v-container>
-        </div>
+        </panel>
     </v-card>
   </v-flex>
 </v-layout>
@@ -36,9 +40,15 @@
 
 <script>
 import AuthService from "@/services/AuthService";
+import {socket} from '../main'
+import Panel from '@/components/Panel'
+
 
 export default {
-  name: "register",
+  name: "Login",
+  components:{
+    Panel
+  },
   data() {
     return {
       email: "",
@@ -58,33 +68,48 @@ export default {
       // console.log("email changed", value);
     }
   },
+  sockets:{
+       login(user) {
+      console.log(user)
+    },
+   newUserAdded(user) {
+      console.log(user)
+      this.$store.dispatch("NEW_USER", user);
+    }
+  },
   methods: {
     async login() {
       try {
         const response = await AuthService.login({
           email: this.email,
           password: this.password
-        });
+        })
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
         console.log(response);
         this.error = null;
-
-        /*socket io attemp
-       var s = document.getElementById('socket')
-           s.src = '/socket.io/socket.io.js'
-         io();*/
-
-         
+        let user = response.data.user
+        await AuthService.socketConnect(this.$socket, this.$store.state.token)
+        this.$socket.emit('login', user)
+        // console.log(socket)
       } catch (error) {
         this.error = error.response.data;
         // console.log(error.response.data);
       }
+    },
+    hello(){
+       this.$socket.emit('hello', 'hello yo');
     }
   },
   created: () => {
-    this.socket= socket
-    console.log(this.socket)
+    //  socket.io.uri = 'http://localhost:3000'
+    //  socket.open()
+    //  socket('http://localhost:3000')
+     console.log(socket)
+     socket.on('disconnect', ()=>{
+      console.log('disconnected yo')
+      //  socket.close()
+    });
     // this.socket.on('hello',(data)=>{
     //   console.log(data)
     // })
