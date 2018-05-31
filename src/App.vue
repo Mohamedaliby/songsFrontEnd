@@ -18,7 +18,33 @@ export default {
   name: 'App',
   components: {
     PageHeader
-  }
+  },
+    sockets:{
+      disconnect() {
+      console.log('disconnected yo')
+      this.$socket.close()
+    },
+    }
+//   created: () => {
+//     //  socket.io.uri = 'http://localhost:3000'
+//     //  socket.open()
+//     //  socket('http://localhost:3000')
+//      console.log(socket)
+//      socket.on('disconnect', ()=>{
+//       console.log('disconnected yo')
+//       //  socket.close()
+//     });
+//     // this.socket.on('hello',(data)=>{
+//     //   console.log(data)
+//     // })
+// // var s = document.getElementById('socket')
+// //   console.log(s)
+//     // console.log(document.querySelector("script"));
+//     //  var newS= document.querySelector('script')
+//     //  newS.src = 'new.js'
+//     // var s = document.createElement("script");
+//     // s.src = "new.js";
+//   }
 };
 </script>
 

@@ -52,6 +52,13 @@
                                 </v-flex>
                                 <v-flex 
                                         xs12 md4>
+                                                <v-avatar
+                                                    :tile= "tile"
+                                                    size= "100px"
+                                                    color="grey lighten-4"
+                                                    >
+                                                    <img :src="song.albumImage" alt="avatar">
+                                                </v-avatar>
                                         <v-btn light
                                                color="white"
                                                @click="$refs.image.click()">
@@ -104,7 +111,7 @@
                     </v-layout>
                 </v-container>
                 <div class="text-xs-center">
-                <v-btn @click="create" color="teal darken-3 white--text">Create song</v-btn>
+                <v-btn @click="save" color="teal darken-3 white--text">Save</v-btn>
                 </div>
             </panel>    
         </v-flex>
@@ -121,22 +128,24 @@ import SongService from '@/services/SongsService'
         },
         data () {
             return {
+                tile: false,
                 error:null,
                 song: {
                     title: null,
                     artist: null,
                     genre: null,
                     album: null,
+                    albumImage: null,
                     youtubeId: null,
                     lyrics: null,
                     tab: null
                 },
-                albumImage: null,
+                
                 required: (value) => !!value || 'Required.'
            }
         },
         methods:{
-            async create () {
+            async save () {
                  this.error = null
                  const areAllFieldsFilledIn = Object
                 .keys(this.song)
@@ -146,19 +155,20 @@ import SongService from '@/services/SongsService'
                     return
                 }
                 try {
-                    const song = new FormData()
-                    song.append('file', this.albumImage)
-                    song.append('title', this.song.title)
-                    song.append('artist', this.song.artist)
-                    song.append('genre', this.song.genre)
-                    song.append('album', this.song.album)
-                    song.append('youtubeId', this.song.youtubeId)
-                    song.append('lyrics', this.song.lyrics)
-                    song.append('tab', this.song.tab)
+                     const song = new FormData()
+                           song.append('id', this.song.id)
+                           song.append('file', this.song.albumImage)
+                           song.append('title', this.song.title)
+                           song.append('artist', this.song.artist)
+                           song.append('genre', this.song.genre)
+                           song.append('album', this.song.album)
+                           song.append('youtubeId', this.song.youtubeId)
+                           song.append('lyrics', this.song.lyrics)
+                           song.append('tab', this.song.tab)
                     console.log(song)
                     console.log(this.song)
-                    await SongService.post(song)
-                    this.$router.push({name: 'songs'})
+                    await SongService.put(this.song.id, song)
+                    this.$router.push({name: 'song', params:{id:this.song.id}})
                 } catch (error) {
                     console.log(error)
                 }
@@ -166,9 +176,16 @@ import SongService from '@/services/SongsService'
             },
             onFileSelected (event) {
                 console.log(event)
-                this.albumImage = event.target.files[0]
+                this.song.albumImage = event.target.files[0]
             }
-        }
+        },
+       async mounted () {
+          const id = this.$store.state.route.params.id
+          console.log(id)
+          const response = await SongService.show(id)
+          this.song = response.data
+          console.log (this.song)
+     }
 
     }
 </script>

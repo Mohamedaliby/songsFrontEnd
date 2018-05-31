@@ -10,4 +10,7 @@ export default {
   show (id) {
     return Api().get(`songs/${id}`)
   },
+  put (id, song) {
+    return Api().put(`songs/${id}`, song)
+  },
 }

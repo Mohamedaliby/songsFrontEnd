@@ -100,7 +100,13 @@ export default {
   },
   updated(){
             this.scrollToEnd();
-        }
+        },
+  sockets:{
+  //  EVENT(user) {
+  //     console.log(user)
+  //     this.$store.dispatch("NEW_USER", user);
+  //   }
+  }
 };
 </script>
 

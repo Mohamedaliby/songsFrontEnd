@@ -1,12 +1,17 @@
 <template>
-  <v-layout pt-3 row>
-    <v-flex xs12 sm6 offset-sm3>
+  <v-layout pt-2 row wrap>
+    <v-flex xs12 sm6 pl-2 pr-2 pt-1>
       <v-card>
         <v-card-media
-          :src="song.albumImage"
           height="200px"
           color="grey lighten-4"
+          :class="backgroundColor"
         >
+          <v-btn 
+            :to="{name:'edit-song', params:{id:song.id}}"
+            small flat>
+            Edit
+          </v-btn>
         </v-card-media>
          <v-avatar
           class="img"
@@ -26,15 +31,27 @@
           <v-btn flat>Share</v-btn>
           <v-btn flat color="purple">Explore</v-btn>
           <v-spacer></v-spacer>
-          <v-btn icon @click.native="show = !show">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          <v-btn icon @click.native="show = !show">Lyrics 
+            <v-icon pl-1>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
-          <v-card-text v-show="show">
-           {{song.lyrics}}
-          </v-card-text>
+          <v-flex pl-4 pr-4 >
+              <v-card-text v-show="show">
+                <div class="headline teal--text">Lyrics
+                </div>
+                  <br>
+                  <p class="lyrics">{{song.lyrics}}</p>
+             </v-card-text>
+          </v-flex>
         </v-slide-y-transition>
+      </v-card>
+   </v-flex>
+   <v-flex xs12 sm6 pl-2 pr-2 pt-1>
+      <v-card>
+        <v-card-title primary-title>
+            <div class="headline teal--text">Tab</div>
+        </v-card-title>
       </v-card>
     </v-flex>
   </v-layout>
@@ -49,9 +66,21 @@ import SongService from '@/services/SongsService'
       data: () => ({
       tile: true,
       show: false,
-      song: {}
+      song: {},
+      mediaColors: ['grey','teal','orange',
+                    'deep-orange darken-3',
+                    'deep-orange darken-4',
+                    'deep-orange darken-2',
+                    'blue-grey lighten-3',
+                    'grey lighten-1',
+                    'teal lighten-3']
     }),
-
+    computed: {
+     backgroundColor() {
+     const i = Math.floor(Math.random() * 8 + 1)
+     return this.mediaColors[i]
+     }
+    },
     async mounted () {
       // console.log(this.$route.params)
          const id = this.$store.state.route.params.id
@@ -71,5 +100,16 @@ import SongService from '@/services/SongsService'
 }
 .song-details {
   margin-left: 200px
+}
+
+.lyrics {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.58;
+  letter-spacing: -.003em;
+  max-width: 60%;
 }
 </style>
