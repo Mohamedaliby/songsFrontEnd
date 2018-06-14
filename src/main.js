@@ -9,8 +9,10 @@ import {sync} from 'vuex-router-sync'
 import store from './store/store'
 import io from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
+import Panel from '@/components/global/Panel'
 
 Vue.config.productionTip = false;
+Vue.component('panel', Panel)
 
 Vue.use(Vuetify)
 sync(store, router)

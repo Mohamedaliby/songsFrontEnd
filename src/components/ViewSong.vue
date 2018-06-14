@@ -31,19 +31,20 @@
           <v-btn flat>Share</v-btn>
           <v-btn flat color="purple">Explore</v-btn>
           <v-spacer></v-spacer>
-          <v-btn icon @click.native="show = !show">Lyrics 
-            <v-icon pl-1>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          
+          <v-btn flat @click.native="show = !show">
+            <span>Lyrics</span><v-icon pl-1>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
-          <v-flex pl-4 pr-4 >
               <v-card-text v-show="show">
-                <div class="headline teal--text">Lyrics
-                </div>
-                  <br>
-                  <p class="lyrics">{{song.lyrics}}</p>
+                <v-flex pl-4 pr-4 >
+                  <div class="headline teal--text">Lyrics
+                  </div>
+                    <br>
+                    <p class="lyrics">{{song.lyrics}}</p>
+                </v-flex>
              </v-card-text>
-          </v-flex>
         </v-slide-y-transition>
       </v-card>
    </v-flex>

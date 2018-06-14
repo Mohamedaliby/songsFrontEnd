@@ -7,11 +7,8 @@
     <v-toolbar-items>
       <v-btn flat
        to="/songs">Browse</v-btn>
-      <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn>
-    </v-toolbar-items>
-
+     </v-toolbar-items>
+     <search-panel />
   <v-spacer></v-spacer>
 
    <v-toolbar-items>
@@ -33,7 +30,12 @@
 </template>
 
 <script>
+import SearchPanel from './songs/searchPanel'
+
 export default {
+  components:{
+   SearchPanel
+  },
   methods: {
     GoTo(route) {
       this.$router.push(route);

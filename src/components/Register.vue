@@ -36,13 +36,9 @@
 
 <script>
 import AuthService from "@/services/AuthService";
-import Panel from '@/components/Panel'
 
 export default {
   name: "register",
-   components:{
-    Panel
-  },
   data() {
     return {
       email: "",

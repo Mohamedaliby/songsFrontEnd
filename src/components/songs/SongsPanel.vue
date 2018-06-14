@@ -19,8 +19,7 @@
         </panel>    
     </v-flex>
   </v-layout> -->
-   <v-layout pt-2 align-center justify-center>
-    <v-flex xs12 sm8 md6>
+
         <panel title="songs">
              <v-btn to="songs/create" fab small absolute middle right slot="button" color="white teal--text darken-4"><v-icon>add</v-icon></v-btn>
          <v-card>
@@ -64,7 +63,7 @@
                   <v-flex mt-5 xs1 md2>
                     <v-btn 
                       :to="{name:'song', params:{id:song.id}}"
-                      small flat>
+                      small flat color="teal">
                       View
                     </v-btn>
                   </v-flex>
@@ -75,29 +74,33 @@
         </v-layout>
       </v-container>
     </v-card>
-        </panel>    
-    </v-flex>
-  </v-layout> 
+        </panel>     
 </template>
 
 <script>
 //  :to="{path:`songs/${song.id}`, params:{song:song}}"
-import Panel from '@/components/Panel'
 import SongService from '@/services/SongsService'
     export default {
-     components: {
-         Panel
-     },
      data () {
        return {
            songs:[]
        }
      },
-     async mounted () {
-         const response = await SongService.index()
-         this.songs = response.data
-         console.log (this.songs)
-     }
+     watch: {
+       '$route.query.search': {
+         immediate: true,
+         async handler (value) {
+           const response = await SongService.index(value)
+           this.songs = response.data
+           console.log (this.songs)
+         }
+       }
+     },
+    //  async mounted () {
+    //      const response = await SongService.index()
+    //      this.songs = response.data
+    //      console.log (this.songs)
+    //  }
     }
 </script>
 

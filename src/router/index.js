@@ -5,7 +5,7 @@ import Register from '@/components/Register';
 import Login from '@/components/Login';
 import RegisterVuetify from '@/components/RegisterVuetify';
 import Chat from '@/components/Chat';
-import Songs from '@/components/Songs';
+import Songs from '@/components/Songs/Index';
 import CreateSong from '@/components/CreateSong';
 import ViewSong from '@/components/ViewSong';
 import EditSong from '@/components/EditSong';
@@ -61,5 +61,9 @@ export default new Router({
       name: 'edit-song',
       component: EditSong,
     },
+    {
+      path:'*',
+      redirect: 'songs'
+    }
   ],
 });

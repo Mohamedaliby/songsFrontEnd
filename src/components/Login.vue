@@ -41,14 +41,9 @@
 <script>
 import AuthService from "@/services/AuthService";
 import {socket} from '../main'
-import Panel from '@/components/Panel'
-
 
 export default {
   name: "Login",
-  components:{
-    Panel
-  },
   data() {
     return {
       email: "",
@@ -84,17 +79,18 @@ export default {
           email: this.email,
           password: this.password
         })
-        this.$store.dispatch("setToken", response.data.token);
-        this.$store.dispatch("setUser", response.data.user);
-        console.log(response);
+        this.$store.dispatch("setToken", response.data.token)
+        this.$store.dispatch("setUser", response.data.user)
+        console.log(response)
         this.error = null;
         let user = response.data.user
         await AuthService.socketConnect(this.$socket, this.$store.state.token)
         this.$socket.emit('login', user)
+        this.$router.push({name:'songs'})
         // console.log(socket)
       } catch (error) {
-        this.error = error.response.data;
-        // console.log(error.response.data);
+        this.error = error.response.data
+        // console.log(error.response.data)
       }
     },
     //   created: () => {
