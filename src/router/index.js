@@ -9,7 +9,7 @@ import Songs from '@/components/Songs/Index';
 import CreateSong from '@/components/CreateSong';
 import ViewSong from '@/components/ViewSong';
 import EditSong from '@/components/EditSong';
-
+import SongsBookmarks from '@/components/Songs/SongsBookmarks';
 
 
 Vue.use(Router);
@@ -60,6 +60,11 @@ export default new Router({
       path: '/songs/:id/edit',
       name: 'edit-song',
       component: EditSong,
+    },
+    {
+      path: '/songs/bookmarks',
+      name: 'songs-bookmarks',
+      component: SongsBookmarks,
     },
     {
       path:'*',

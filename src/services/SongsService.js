@@ -13,4 +13,7 @@ export default {
   put (id, song) {
     return Api().put(`songs/${id}`, song)
   },
+  delete (id) {
+    return Api().delete(`songs/${id}`)
+  }
 }

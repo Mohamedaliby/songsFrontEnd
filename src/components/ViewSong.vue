@@ -7,11 +7,20 @@
           color="grey lighten-4"
           :class="backgroundColor"
         >
-          <v-btn 
-            :to="{name:'edit-song', params:{id:song.id}}"
-            small flat>
-            Edit
-          </v-btn>
+        <v-spacer></v-spacer>
+          <div class="text-xs-center">
+            <v-menu  class="mr-2" open-on-click bottom offset-y>
+              <v-btn slot="activator" flat>Edit</v-btn>
+              <v-list>
+                <v-list-tile :to="{name:'edit-song', params:{id:song.id}}">
+                  <v-list-tile-title>Edit</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="deleteSong">
+                  <v-list-tile-title>delete</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </div>
         </v-card-media>
          <v-avatar
           class="img"
@@ -76,6 +85,19 @@ import SongService from '@/services/SongsService'
                     'grey lighten-1',
                     'teal lighten-3']
     }),
+    methods: {
+       async deleteSong () {
+         try {
+              const id = this.$route.params.id
+              await SongService.delete(id)
+               console.log('song deleted')
+              this.$router.push({name: 'songs'})
+         } catch (error) {
+              console.log(error)
+         }
+
+       }
+    },
     computed: {
      backgroundColor() {
      const i = Math.floor(Math.random() * 8 + 1)

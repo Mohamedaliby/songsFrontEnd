@@ -44,31 +44,7 @@
                   :key="song.id"
                    xs12 md4>
             <v-card color="">
-              <v-container fluid grid-list-lg>
-                <v-layout row wrap>
-                  <v-flex xs3>
-                     <v-card-media
-                      :src="song.albumImage"
-                      height="100px"
-                      width="100px"
-                      contain
-                    ></v-card-media>
-                  </v-flex>
-                  <v-flex xs3 sm6 md6>
-                    <div>
-                      <div class="headline">{{song.title}}</div>
-                      <div class="grey--text darken-4">{{song.artist}}</div>
-                    </div>
-                  </v-flex>
-                  <v-flex mt-5 xs1 md2>
-                    <v-btn 
-                      :to="{name:'song', params:{id:song.id}}"
-                      small flat color="teal">
-                      View
-                    </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+            <song :song="song" />
             </v-card>
           </v-flex>
         </v-layout>
@@ -79,8 +55,13 @@
 
 <script>
 //  :to="{path:`songs/${song.id}`, params:{song:song}}"
+import Song from './Song'
 import SongService from '@/services/SongsService'
-    export default {
+
+  export default {
+      components: {
+        Song  
+      },
      data () {
        return {
            songs:[]
@@ -95,12 +76,7 @@ import SongService from '@/services/SongsService'
            console.log (this.songs)
          }
        }
-     },
-    //  async mounted () {
-    //      const response = await SongService.index()
-    //      this.songs = response.data
-    //      console.log (this.songs)
-    //  }
+     }
     }
 </script>
 
