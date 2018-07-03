@@ -59,8 +59,8 @@ input[type=text]:focus {
  .search[type=text] {
     width: 180px;
     box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
     font-size: 16px;
     background-color: white;
     /* background-image: url('../assets/searchicon.png'); */
@@ -75,5 +75,8 @@ input[type=text]:focus {
 
 .search[type=text]:focus {
     width: 100%;
+    outline-color: #009688;
+    outline-width: 0.5px;
+
 }
 </style>
