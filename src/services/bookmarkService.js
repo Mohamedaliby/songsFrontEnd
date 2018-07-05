@@ -10,4 +10,7 @@ export default {
   delete (id) {
     return Api().delete(`bookmarks/${id}`)
   },
+  getall () {
+    return Api().get('bookmarks/all')
+  },
 }

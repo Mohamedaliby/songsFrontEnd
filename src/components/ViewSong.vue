@@ -68,61 +68,73 @@
 </template>
 
 <script>
-import SongService from '@/services/SongsService'
-    export default {
-     components: {
-      
-     },
-      data: () => ({
-      tile: true,
-      show: false,
-      song: {},
-      mediaColors: ['grey','teal','orange',
-                    'deep-orange darken-3',
-                    'deep-orange darken-4',
-                    'deep-orange darken-2',
-                    'blue-grey lighten-3',
-                    'grey lighten-1',
-                    'teal lighten-3']
-    }),
-    methods: {
-       async deleteSong () {
-         try {
-              const id = this.$route.params.id
-              await SongService.delete(id)
-               console.log('song deleted')
-              this.$router.push({name: 'songs'})
-         } catch (error) {
-              console.log(error)
-         }
-
-       }
-    },
-    computed: {
-     backgroundColor() {
-     const i = Math.floor(Math.random() * 8 + 1)
-     return this.mediaColors[i]
-     }
-    },
-    async mounted () {
-      // console.log(this.$route.params)
-         const id = this.$store.state.route.params.id
-         console.log(id)
-         const response = await SongService.show(id)
-         this.song = response.data
-         console.log (this.song)
-     }
+import { mapState } from "vuex";
+import HistoryService from "@/services/historyService";
+import SongService from "@/services/SongsService";
+export default {
+  components: {},
+  data: () => ({
+    tile: true,
+    show: false,
+    song: {},
+    mediaColors: [
+      "grey",
+      "teal",
+      "orange",
+      "deep-orange darken-3",
+      "deep-orange darken-4",
+      "deep-orange darken-2",
+      "blue-grey lighten-3",
+      "grey lighten-1",
+      "teal lighten-3"
+    ]
+  }),
+  methods: {
+    async deleteSong() {
+      try {
+        const id = this.$route.params.id;
+        await SongService.delete(id);
+        console.log("song deleted");
+        this.$router.push({ name: "songs" });
+      } catch (error) {
+        console.log(error);
+      }
     }
+  },
+  computed: {
+    ...mapState(["isLoggedin", "user"]),
+    backgroundColor() {
+      const i = Math.floor(Math.random() * 8 + 1);
+      return this.mediaColors[i];
+    }
+  },
+  async mounted() {
+    try {
+      // console.log(this.$route.params)
+      const id = this.$store.state.route.params.id;
+      console.log(id);
+      const response = await SongService.show(id);
+      this.song = response.data;
+      if (this.isLoggedin) {
+        HistoryService.post({
+          songId: id,
+          userId: this.user.id
+        });
+      } 
+      console.log(this.song);
+    } catch (error) {}
+  }
+};
 </script>
 
 <style scoped>
 .img {
-    position: absolute;
-    top: 80px;
-    left: 10px;
+  position: absolute;
+  top: 80px;
+  left: 10px;
 }
 .song-details {
-  margin-left: 200px
+  margin-left: 200px;
 }
 
 .lyrics {
@@ -132,7 +144,7 @@ import SongService from '@/services/SongsService'
   font-style: normal;
   font-size: 16px;
   line-height: 1.58;
-  letter-spacing: -.003em;
+  letter-spacing: -0.003em;
   max-width: 60%;
 }
 </style>

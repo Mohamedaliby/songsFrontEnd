@@ -25,12 +25,12 @@
                   @click="login">
                   Login
                 </v-btn>
-                <v-btn
+                <!-- <v-btn
                   dark
                   class="teal"
                   @click="hello">
                   hello
-                </v-btn>
+                </v-btn> -->
           </v-container>
         </panel>
     </v-card>

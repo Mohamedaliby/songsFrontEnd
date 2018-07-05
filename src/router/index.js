@@ -10,6 +10,7 @@ import CreateSong from '@/components/CreateSong';
 import ViewSong from '@/components/ViewSong';
 import EditSong from '@/components/EditSong';
 import SongsBookmarks from '@/components/Songs/SongsBookmarks';
+import HistoryPage from '@/components/History';
 
 
 Vue.use(Router);
@@ -65,6 +66,11 @@ export default new Router({
       path: '/songs/bookmarks',
       name: 'songs-bookmarks',
       component: SongsBookmarks,
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: HistoryPage,
     },
     {
       path:'*',

@@ -41,85 +41,76 @@
 
 <script>
 //  :to="{path:`songs/${song.id}`, params:{song:song}}"
-import {mapState} from 'vuex'
-import bookmarkService from '@/services/bookmarkService'
+import { mapState } from "vuex";
+import bookmarkService from "@/services/bookmarkService";
 
-    export default {
-         props: [
-          'song'
-        ],
-     data () {
-       return {
-           bookmarkId:null,
-           isBookmarked: false
-       }
-     },
-     methods: {
-      async bookmark () {
-          try {
-            const userId = this.user.id
-            const songId = this.song.id
-            const response = await bookmarkService.post({songId, userId})
-            let bookmark = response.data
-            this.bookmarkId = response.data.id
-            this.isBookmarked = !! bookmark
-            console.log (this.isBookmarked)
-            console.log ('bookmarked ')
-          } catch (error) {
-              
-          }
-      },
-      async unbookmark () {
-          try {
-            const userId = this.user.id
-            const songId = this.song.id
-            let id = this.bookmarkId
-            console.log(this.isBookmarked)
-            console.log (this.bookmarkId)
-            await bookmarkService.delete(id)
-            this.isBookmarked = ! this.isBookmarked
-            console.log ('unbookmarked ')
-          } catch (error) {
-              
-          }
-      }
-     },
-     watch: {
+export default {
+  props: ["song"],
+  data() {
+    return {
+      bookmarkId: null,
+      isBookmarked: false
+    };
+  },
+  methods: {
+      // only for debugging
+    // async bookmarksIndex() {
+    //  const response = await bookmarkService.getall()
+    //  console.log(response.data)
+    // },
 
-     },
-     computed: {
-       ...mapState([
-         'isLoggedin',
-         'user'
-       ])
-     },
-     async mounted () {
-         if (!this.isLoggedin) {
-             return;
-         }
-         try {
-         const userId = this.user.id
-         const songId = this.song.id
-         console.log({songId, userId})
-         const response = await bookmarkService.index({songId, userId})
-          console.log(response.data)
-         console.log(`bookmark:  ${response.data}`)
-         if (response.data) {
-             this.isBookmarked = true
-         }
-         this.bookmarkId = response.data.id
-         console.log (this.bookmarkId)
-         console.log ( this.isBookmarked)
-         } catch (error) {
-             
-         }
-     }
+    async bookmark() {
+      try {
+        const userId = this.user.id;
+        const songId = this.song.id;
+        const response = await bookmarkService.post({ songId, userId })
+        let bookmark = response.data;
+        this.bookmarkId = response.data.id;
+        this.isBookmarked = !!bookmark;
+        console.log(this.isBookmarked);
+        console.log("bookmarked ");
+      } catch (error) {}
+    },
+    async unbookmark() {
+      try {
+        let id = this.bookmarkId;
+        console.log(this.isBookmarked);
+        console.log(this.bookmarkId);
+        await bookmarkService.delete(id);
+        this.isBookmarked = !this.isBookmarked;
+        console.log("unbookmarked ");
+      } catch (error) {}
     }
+  },
+  watch: {},
+  computed: {
+    ...mapState(["isLoggedin", "user"])
+  },
+  async mounted() {
+    if (!this.isLoggedin) {
+      return;
+    }
+    try {
+      const userId = this.user.id;
+      const songId = this.song.id;
+      console.log({ songId, userId });
+      const response = await bookmarkService.index({ songId });
+      console.log(response.data);
+      console.log(`bookmark:  ${response.data}`);
+      if (response.data) {
+        this.isBookmarked = true;
+      }
+      this.bookmarkId = response.data.id;
+      console.log(this.bookmarkId);
+      console.log(this.isBookmarked);
+    } catch (error) {}
+  }
+};
 </script>
 
 <style scoped>
 .bookmark {
-margin-left: 25px;
-margin-top: 0;
+  margin-left: 25px;
+  margin-top: 0;
 }
 </style>
