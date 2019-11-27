@@ -27,6 +27,10 @@ export const socket = io('http://localhost:3000',{
 })
 
 Vue.use(VueSocketIO, socket, store)
+// dfslajpsag[dnsalgdanpjhasjgsaljgdsakghdasjds] jjlsdhfshklhasuihewhljkvnadsiohasiohg
+// ijdsjajlsja;lkjds;lfhasdjhksda
+//jgdsakghdasjds] jjlsdhfshklhasuihewhljkvnadsiohasiohg
+// ijdsjajlsja;lkjds;lfhasdjhksda
 
 new Vue({
   el: '#app',
